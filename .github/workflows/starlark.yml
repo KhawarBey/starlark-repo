@@ -13,21 +13,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verify Bazel workspace
-        run: |
-          ls -la
-          cat MODULE.bazel || echo "No MODULE.bazel found"
-          cat WORKSPACE || echo "No WORKSPACE found"
-
-      - name: Install Bazel
-        run: |
-          sudo apt update && sudo apt install -y bazel
-
-      - name: Initialize Bazel Workspace
-        run: |
-          cd $GITHUB_WORKSPACE
-          bazel info
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@v0.14.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
 
       - name: Run Starlark script
         run: |
-          bazel run //hello.star
+          bazel run //:hello_star
