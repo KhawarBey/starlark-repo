@@ -1,0 +1,15 @@
+cat <<EOL > .github/workflows/starlark.yml
+name: Starlark CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Starlark Script
+        run: echo "Hello, Starlark! This is first test and build"
+EOL
