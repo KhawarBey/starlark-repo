@@ -13,6 +13,11 @@
         - name: Checkout repository
           uses: actions/checkout@v4
 
+         - name: Install Bazel
+          run: |
+         sudo apt update && sudo apt install -y bazel
+
+
         - name: Set up Bazel
           uses: bazel-contrib/setup-bazel@v0.10.0
           with:
