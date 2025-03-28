@@ -1,24 +1,29 @@
-name: Run Starlark Script
+  name: Run Starlark Script
 
-on:
-  push:
-    branches:
-      - main
+  on:
+    push:
+      branches:
+        - main
 
-jobs:
-  run-starlark:
-    runs-on: ubuntu-latest
+  jobs:
+    run-starlark:
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
 
-      - name: Set up Bazel
-        uses: bazel-contrib/setup-bazel@v0.14.0
-        with:
-          bazelisk-cache: true
-          disk-cache: ${{ github.workflow }}
+        - name: Set up Bazel
+          uses: bazel-contrib/setup-bazel@v0.10.0
+          with:
+            bazel-version: '6.0.0'  # Specify the desired Bazel version
 
-      - name: Run Starlark script
-        run: |
-          bazel run //:hello_star
+        - name: Verify Bazel workspace
+          run: |
+            ls -la
+            cat MODULE.bazel || echo "No MODULE.bazel found"
+            cat WORKSPACE || echo "No WORKSPACE found"
+
+        - name: Run Starlark script
+          run: |
+            bazel run //hello.star
